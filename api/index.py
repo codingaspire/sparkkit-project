@@ -49,7 +49,7 @@ class handler(BaseHTTPRequestHandler):
             
             # 4. Call the Gemini API
             print("Calling Gemini API...")
-            model = genai.GenerativeModel('gemini-1.5-pro-latest')
+            model = genai.GenerativeModel('gemini-1.0-pro')
             response = model.generate_content(prompt)
             ai_text = response.text
             print("Gemini API call successful.")
@@ -86,5 +86,6 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
+
 
 
