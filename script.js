@@ -4,7 +4,7 @@ const generatorForm = document.getElementById('generator-form');
 const generateBtn = document.getElementById('generate-btn');
 const outputContainer = document.getElementById('output-container');
 
-// 1. DYNAMIC DROPDOWN LOGIC (Same as before)
+// 1. DYNAMIC DROPDOWN LOGIC
 const vibeOptions = {
     college: [
         { value: "hype", text: "Hype & Energetic" },
@@ -34,7 +34,7 @@ eventTypeSelect.addEventListener('change', (e) => {
     }
 });
 
-// 2. FORM SUBMISSION LOGIC (Updated for V2.1)
+// 2. FORM SUBMISSION LOGIC
 generatorForm.addEventListener('submit', async (e) => {
     e.preventDefault(); 
     setLoading(true);
@@ -84,27 +84,38 @@ function setLoading(isLoading) {
     }
 }
 
-// 3. DISPLAY RESULTS LOGIC (Same as before)
+// 3. DISPLAY RESULTS LOGIC (Updated with Icon Classes)
 function displayResults(kit) {
     outputContainer.innerHTML = ''; // Clear again just in case
 
-    createResultCard("📧 Email Subject", kit.email_subject);
-    createResultCard("📬 Email Body", kit.email_body);
-    createResultCard("💼 LinkedIn Post", kit.linkedin_post);
-    createResultCard("✖️ X (Twitter) Post", kit.x_post);
-    createResultCard("📸 Instagram Caption", kit.instagram_caption);
-    createResultCard("📱 WhatsApp / Telegram", kit.whatsapp_blurb);
+    // We're now passing the icon class names
+    createResultCard("fa-solid fa-envelope", "Email Subject", kit.email_subject);
+    createResultCard("fa-solid fa-at", "Email Body", kit.email_body);
+    createResultCard("fa-brands fa-linkedin", "LinkedIn Post", kit.linkedin_post);
+    createResultCard("fa-brands fa-x-twitter", "X (Twitter) Post", kit.x_post);
+    createResultCard("fa-brands fa-instagram", "Instagram Caption", kit.instagram_caption);
+    createResultCard("fa-brands fa-whatsapp", "WhatsApp / Telegram", kit.whatsapp_blurb);
 }
 
-// 4. HELPER FUNCTION (Same as before)
-function createResultCard(title, text) {
+// 4. HELPER FUNCTION (Updated to create <i> tags)
+function createResultCard(iconClass, title, text) {
     if (!text) return; 
 
     const card = document.createElement('div');
     card.className = 'result-card';
     
     const titleElement = document.createElement('h3');
-    titleElement.textContent = title;
+    
+    // --- NEW ICON CODE ---
+    const iconElement = document.createElement('i');
+    // 'fa-solid fa-envelope' becomes ['fa-solid', 'fa-envelope']
+    const classes = iconClass.split(' '); 
+    iconElement.classList.add(...classes); // Adds all classes to the <i> tag
+    
+    // Add the icon and then the text (with a space)
+    titleElement.appendChild(iconElement);
+    titleElement.appendChild(document.createTextNode(' ' + title));
+    // --- END NEW ICON CODE ---
 
     const textElement = document.createElement('p');
     textElement.textContent = text;
