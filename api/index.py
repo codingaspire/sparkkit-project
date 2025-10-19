@@ -3,6 +3,7 @@ import os
 import json
 import google.generativeai as genai
 from http.server import BaseHTTPRequestHandler
+import traceback # <-- ADDED THIS IMPORT
 
 class handler(BaseHTTPRequestHandler):
 
@@ -19,11 +20,19 @@ class handler(BaseHTTPRequestHandler):
             eventVibe = data.get('eventVibe')
             
             # 2. Get the secret API key (SECURELY!)
-            # We will set this up in our server settings, NOT here.
             API_KEY = os.environ.get('GEMINI_API_KEY')
+            
+            # --- START DEBUGGING PRINT ---
+            if not API_KEY:
+                print("ERROR: GEMINI_API_KEY environment variable is NOT SET.")
+            else:
+                print(f"API Key loaded, starting with... {API_KEY[:4]}...")
+            # --- END DEBUGGING PRINT ---
+            
             genai.configure(api_key=API_KEY)
 
             # 3. This is the "brain" - our prompt to the AI
+            print("Configuring prompt...")
             prompt = f"""
             You are "SparkKit," an expert AI copywriter for events.
             Generate 3 distinct event descriptions for the following event.
@@ -39,20 +48,29 @@ class handler(BaseHTTPRequestHandler):
             """
             
             # 4. Call the Gemini API
+            print("Calling Gemini API...")
             model = genai.GenerativeModel('gemini-1.5-flash')
             response = model.generate_content(prompt)
             ai_text = response.text
+            print("Gemini API call successful.")
 
             # 5. Send the AI's answer back to the HTML page
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*') # Allow our HTML to talk to this
+            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             
             response_data = {'text': ai_text}
             self.wfile.write(json.dumps(response_data).encode('utf-8'))
 
         except Exception as e:
+            # --- THIS IS THE NEW PART ---
+            # Print the FULL error traceback to the Vercel logs
+            print("!!!!!!!!!! AN ERROR OCCURRED !!!!!!!!!!")
+            print(traceback.format_exc())
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            # --- END OF NEW PART ---
+
             # Send an error message if something goes wrong
             self.send_response(500)
             self.send_header('Content-type', 'application/json')
