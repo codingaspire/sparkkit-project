@@ -21,7 +21,7 @@
                 <i class="fa-solid fa-plus"></i> New Kit
             </button>
             <nav class="kit-history" id="kit-history">
-                <p>No saved kits yet.</p> 
+                <p>Log in to see saved kits.</p> 
             </nav>
         </aside>
 
@@ -33,10 +33,23 @@
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <h1 class="app-title">SparkKit AI ✨</h1>
-                <div class="auth-buttons" id="auth-buttons">
-                    <button class="btn-secondary" id="login-btn">Log In</button>
-                    <button class="btn-primary" id="signup-btn">Sign Up</button>
-                    <button class="profile-btn" id="profile-btn" style="display: none;"></button>
+                <div class="auth-container">
+                    <div class="auth-buttons" id="auth-buttons">
+                        <button class="btn-secondary" id="login-btn">Log In</button>
+                        <button class="btn-primary" id="signup-btn">Sign Up</button>
+                    </div>
+                    <div class="profile-container">
+                        <button class="profile-btn" id="profile-btn" style="display: none;"></button>
+                        <!-- Profile Popover (Hidden by default) -->
+                        <div class="profile-popover" id="profile-popover" style="display: none;">
+                            <div id="popover-user-info" class="popover-user-info">
+                                <!-- User info will be populated here -->
+                            </div>
+                            <button class="logout-btn" id="logout-btn">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </header>
 
@@ -100,3 +113,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
