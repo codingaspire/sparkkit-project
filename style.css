@@ -8,6 +8,7 @@
     --accent-color: #007bff;
     --accent-hover: #0056b3;
     --border-color: #444444;
+    --error-color: #e53e3e;
     --sidebar-width: 260px;
 }
 
@@ -17,183 +18,69 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 0; /* Remove body padding */
-    display: flex; /* Needed for layout */
+    padding: 0;
 }
 
 /* --- App Layout --- */
-.app-layout {
-    display: flex;
-    width: 100%;
-    min-height: 100vh;
-}
-
+.app-layout { display: flex; width: 100%; min-height: 100vh; }
 .sidebar {
-    width: var(--sidebar-width);
-    background-color: var(--sidebar-color);
-    padding: 1rem;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid var(--border-color);
-    transition: transform 0.3s ease;
-    z-index: 100; /* Keep sidebar on top */
+    width: var(--sidebar-width); background-color: var(--sidebar-color);
+    padding: 1rem; box-sizing: border-box; display: flex;
+    flex-direction: column; border-right: 1px solid var(--border-color);
+    transition: transform 0.3s ease; z-index: 100;
 }
-
-.main-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto; /* Allow content to scroll if needed */
-}
+.main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
 
 /* --- Header --- */
 .app-header {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.5rem;
-    background-color: var(--card-color);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky; /* Keep header visible */
-    top: 0;
-    z-index: 50;
+    display: flex; align-items: center; padding: 0.75rem 1.5rem;
+    background-color: var(--card-color); border-bottom: 1px solid var(--border-color);
+    position: sticky; top: 0; z-index: 50;
 }
-
 .menu-toggle {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.5rem;
-    cursor: pointer;
-    margin-right: 1rem;
-    display: none; /* Hidden by default on desktop */
+    background: none; border: none; color: var(--text-muted); font-size: 1.5rem;
+    cursor: pointer; margin-right: 1rem; display: none;
 }
-
-.app-title {
-    font-size: 1.5rem; /* Smaller title */
-    margin: 0;
-    flex-grow: 1; /* Pushes auth buttons to the right */
-}
-
+.app-title { font-size: 1.5rem; margin: 0; flex-grow: 1; }
+.auth-buttons { display: flex; align-items: center; gap: 0.75rem; }
 .auth-buttons button {
-    margin-left: 0.5rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
+    padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600;
+    border-radius: 6px; cursor: pointer; border: none;
 }
-
-.btn-secondary {
-    background-color: var(--border-color);
-    color: var(--text-color);
-}
-.btn-secondary:hover {
-    background-color: #555;
-}
-
-.btn-primary {
-    background-color: var(--accent-color);
-    color: white;
-}
-.btn-primary:hover {
-    background-color: var(--accent-hover);
-}
-
+.btn-secondary { background-color: var(--border-color); color: var(--text-color); }
+.btn-secondary:hover { background-color: #555; }
+.btn-primary { background-color: var(--accent-color); color: white; }
+.btn-primary:hover { background-color: var(--accent-hover); }
 .profile-btn {
-    background-color: var(--accent-color);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
+    background-color: var(--accent-color); color: white; width: 36px; height: 36px;
+    border-radius: 50%; font-size: 1rem; font-weight: bold; display: flex;
+    align-items: center; justify-content: center; cursor: pointer; border: none;
 }
-.profile-btn:hover {
-    background-color: var(--accent-hover);
-}
-
+.profile-btn:hover { background-color: var(--accent-hover); }
 
 /* --- Sidebar Content --- */
 .new-kit-btn {
-    background-color: var(--card-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    width: 100%;
+    background-color: var(--card-color); color: var(--text-color);
+    border: 1px solid var(--border-color); padding: 0.75rem 1rem;
+    font-size: 1rem; border-radius: 8px; cursor: pointer; text-align: left;
+    margin-bottom: 1.5rem; display: flex; align-items: center; width: 100%;
 }
-.new-kit-btn:hover {
-    background-color: #333;
-}
-.new-kit-btn i {
-    margin-right: 0.5rem;
-}
-
-.kit-history {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-.kit-history p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-/* Style for saved kit links (will be added by JS) */
+.new-kit-btn:hover { background-color: #333; }
+.new-kit-btn i { margin-right: 0.5rem; }
+.kit-history { flex-grow: 1; overflow-y: auto; }
+.kit-history p { color: var(--text-muted); font-size: 0.9rem; }
 .kit-history a {
-    display: block;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 0.5rem 0.25rem;
-    border-radius: 4px;
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: block; color: var(--text-muted); text-decoration: none;
+    padding: 0.5rem 0.25rem; border-radius: 4px; margin-bottom: 0.25rem;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     font-size: 0.9rem;
 }
-.kit-history a:hover {
-    background-color: var(--card-color);
-    color: var(--text-color);
-}
-
+.kit-history a:hover { background-color: var(--card-color); color: var(--text-color); }
 
 /* --- Main Generator Area --- */
-.container { /* Existing container styles, adjusted */
-    max-width: 700px;
-    width: 100%;
-    padding: 2rem; /* Add padding here instead of body */
-    margin: 0 auto; /* Center the container */
-    box-sizing: border-box;
-}
-
-.generator-form {
-    background-color: var(--card-color);
-    padding: 2rem;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-}
-.form-description { /* Style for the paragraph */
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 2rem;
-}
-
-
-/* --- Form & Button Styles (Mostly unchanged) --- */
+.container { max-width: 700px; width: 100%; padding: 2rem; margin: 0 auto; box-sizing: border-box; }
+.generator-form { background-color: var(--card-color); padding: 2rem; border-radius: 12px; border: 1px solid var(--border-color); }
+.form-description { font-size: 1.1rem; color: var(--text-muted); text-align: center; margin-top: 0; margin-bottom: 2rem; }
 .form-group { margin-bottom: 1.5rem; }
 .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
 .form-group input, .form-group select {
@@ -211,7 +98,7 @@ body {
 .btn-generate:hover { background-color: var(--accent-hover); }
 .btn-generate:disabled { background-color: var(--border-color); cursor: not-allowed; }
 
-/* --- Output Area Styles (Mostly unchanged) --- */
+/* --- Output Area Styles --- */
 #output-container { margin-top: 2.5rem; }
 .result-card {
     background-color: var(--card-color); padding: 1.5rem;
@@ -226,45 +113,47 @@ body {
     cursor: pointer; font-weight: 600; transition: background-color 0.3s ease;
 }
 .copy-btn:hover { background: #555; }
-
-/* --- Icon & Title Styles --- */
 .result-card h3 {
     display: flex; align-items: center; margin: 0 0 0.75rem 0;
-    color: var(--text-color); /* Title text white */
-    font-size: 0.9rem; font-weight: 600;
+    color: var(--text-color); font-size: 0.9rem; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.5px;
 }
 .result-card h3 i {
     font-size: 1.1rem; margin-right: 0.5rem; width: 20px;
-    text-align: center; color: var(--accent-color); /* Default icon color */
+    text-align: center; color: var(--accent-color);
 }
-
-/* Brand Colors */
 .fa-linkedin { color: #0077b5 !important; }
 .fa-x-twitter { color: #ffffff !important; }
 .fa-instagram { color: #E1306C !important; }
 .fa-whatsapp { color: #25D366 !important; }
 
+/* --- Authentication Modal --- */
+.auth-modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); display: flex;
+    align-items: center; justify-content: center; z-index: 1000;
+}
+.auth-modal {
+    background-color: var(--card-color); padding: 2.5rem;
+    border-radius: 12px; width: 90%; max-width: 400px;
+    position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+.close-modal-btn {
+    position: absolute; top: 1rem; right: 1rem; background: none; border: none;
+    color: var(--text-muted); font-size: 1.5rem; cursor: pointer;
+}
+.auth-modal h2 { margin-top: 0; text-align: center; }
+.auth-modal #modal-submit-btn { width: 100%; margin-top: 1rem; }
+.modal-error { color: var(--error-color); text-align: center; margin-top: 1rem; height: 1em; }
+.switch-mode-text { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted); }
+.switch-mode-text a { color: var(--accent-color); text-decoration: none; font-weight: 600; }
+.switch-mode-text a:hover { text-decoration: underline; }
+
 /* --- Responsive Design (Mobile) --- */
 @media (max-width: 768px) {
-    .sidebar {
-        position: fixed; /* Make sidebar float */
-        left: 0;
-        top: 0;
-        bottom: 0;
-        transform: translateX(-100%); /* Start hidden */
-        box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-    }
-    .sidebar.open {
-        transform: translateX(0); /* Slide in when open */
-    }
-    .menu-toggle {
-        display: block; /* Show hamburger */
-    }
-    .app-header {
-        padding: 0.75rem 1rem; /* Adjust header padding */
-    }
-    .container {
-        padding: 1rem; /* Reduce padding on mobile */
-    }
+    .sidebar { position: fixed; transform: translateX(-100%); box-shadow: 2px 0 5px rgba(0,0,0,0.5); }
+    .sidebar.open { transform: translateX(0); }
+    .menu-toggle { display: block; }
+    .app-header { padding: 0.75rem 1rem; }
+    .container { padding: 1rem; }
 }
